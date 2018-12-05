@@ -10,31 +10,45 @@ function chargerClasse($classname)
     }
 }
 spl_autoload_register('chargerClasse');
-
+// groups account names in a table
 $array = array('Compte courant', 'PEL', 'Livret A', 'Compte joint');
 
-
+// call database
 $db = Database::DB();
 $manager = new AccountManager($db);
 
+// Delete account
 if(isset($_POST['delete']))
 {
     $accountId = $_POST['id'];
     $delete = $manager->deleteAccount($accountId);
     header('location: index.php');
 }
+// Add new account 
 
 if(isset($_POST['name'])) 
 {
     $name = htmlspecialchars($_POST['name']);
-
-    $account = new Account([
-        "name" => $name,
-        "balance" => 80
-    ]);
+    // if the name of the account is different from current account, then it has 0 euros
+    if($name !== "Compte courant") 
+    {
+        $account = new Account([
+            "name" => $name,
+            "balance" => 0
+        ]);
+    }
+    // else the account wins 80 euros
+    else {
+        $account = new Account([
+            "name" => $name,
+            "balance" => 80
+        ]);
+    }
     $manager->add($account);
     header('location: index.php');
 }
+
+// add money to the account
 
 if(isset($_POST['payment']))
 {
@@ -47,16 +61,14 @@ if(isset($_POST['payment']))
             
             $payment = $manager->getAccount($accountId);
 
-            if($payment)
-            {
-                $money = $payment->addMoney($balance);
-                $manager->update($payment);
-                header('location: index.php');
-
-            }
+            $money = $payment->addMoney($balance);
+            $manager->update($payment);
+            header('location: index.php');
         }    
     }
 }
+
+// allows you to withdraw money from the account
 
 if (isset($_POST['debit'])) {
     if (isset($_POST['id'])) {
@@ -67,12 +79,10 @@ if (isset($_POST['debit'])) {
 
             $payment = $manager->getAccount($accountId);
 
-            if ($payment) {
-                $money = $payment->removeMoney($balance);
-                $manager->update($payment);
-                header('location: index.php');
+            $money = $payment->removeMoney($balance);
+            $manager->update($payment);
+            header('location: index.php');
 
-            }
         }
     }
 }

@@ -92,26 +92,24 @@ class AccountManager
 
     }
 
-    // /**
-    //  * Check if character exists or not
-    //  *
-    //  * @param string $name
-    //  * @return boolean
-    //  */
-    // public function checkIfExist(string $name)
-    // {
-    //     $query = $this->getDb()->prepare('SELECT * FROM characters WHERE name = :name');
-    //     $query->bindValue('name', $name, PDO::PARAM_STR);
-    //     $query->execute();
+    /**
+     * Check if account exists or not
+     *
+     * @param string $name
+     * @return boolean
+     */
+    public function checkIfExist(string $name)
+    {
+        $query = $this->getDb()->prepare('SELECT * FROM accounts WHERE name = :name');
+        $query->bindValue('name', $name, PDO::PARAM_STR);
+        $query->execute();
 
-    //     // Si il y a une entrÃ©e avec ce nom, c'est qu'il existe
-    //     if ($query->rowCount() > 0) {
-    //         return true;
-    //     }
+        if ($query->rowCount() > 0) {
+            return true;
+        }
         
-    //     // Sinon c'est qu'il n'existe pas
-    //     return false;
-    // }
+        return false;
+    }
 
     /**
      * Update account's data 

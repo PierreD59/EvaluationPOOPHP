@@ -119,6 +119,7 @@ class Account
         return $this;
     }
 
+    // function that credits
     public function addMoney($balance)
     {
         $balance = (int)$balance;
@@ -126,7 +127,8 @@ class Account
 
         return $this->setBalance($balance);
     }
-
+    
+    // function that debits
     public function removeMoney($balance)
     {
         $balance = (int)$balance;

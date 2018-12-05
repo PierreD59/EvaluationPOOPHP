@@ -40,7 +40,9 @@ include('includes/header.php');
 				<h3><strong><?= $account->getName() ?></strong></h3>
 				<div class="card-content">
 
-
+				<?php if($account->getBalance() < 0) {
+					echo "Vous êtes à découvert maggle !";
+				} ?>
 					<p>Somme disponible : <?= $account->getBalance() ?> €</p>
 
 					<!-- Formulaire pour dépot/retrait -->
