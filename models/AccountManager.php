@@ -39,6 +39,22 @@ class AccountManager
     }
 
 
+
+
+    /**
+     * Add account into DB
+     *
+     * @param Account $account
+     */
+    public function add(Account $account)
+    {
+        $query = $this->getDb()->prepare('INSERT INTO accounts(name, balance) VALUES (:name, :balance)');
+        $query->bindValue('name', $account->getName(), PDO::PARAM_STR);
+        $query->bindValue('balance', $account->getBalance(), PDO::PARAM_INT);
+
+        $query->execute();
+    }
+
     /**
      * Get one account by id or name
      *
@@ -95,7 +111,7 @@ class AccountManager
     public function deleteAccount($account)
     {
 
-        $query = $this->getDb()->prepare('DELETE FROM account WHERE id = :id');
+        $query = $this->getDb()->prepare('DELETE FROM accounts WHERE id = :id');
         $query->bindValue('id', $account, PDO::PARAM_INT);
         $query->execute();
 

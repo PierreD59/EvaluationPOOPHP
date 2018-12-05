@@ -14,11 +14,11 @@ include('includes/header.php');
 
 	<form class="newAccount" action="index.php" method="post">
 		<label>Sélectionner un type de compte</label>
-		<select class="" name="name" required>
+		<select class="" id="name" name="name" required>
 			<option value="" disabled>Choisissez le type de compte à ouvrir</option>
-			<?php foreach ($accounts as $account) { ?>
-				<option value=""><?= $account->getName() ?></option>
-			<?php } ?>
+		<?php foreach ($array as $account) { ?>
+			<option value="<?= $account; ?>"><?= $account; ?></option>
+		<?php } ?>
 		</select>
 		<input type="submit" name="new" value="Ouvrir un nouveau compte">
 	</form>
@@ -30,11 +30,14 @@ include('includes/header.php');
 	<!-- Pour chaque compte enregistré en base de données, il faudra générer le code ci-dessous -->
 
 	<?php foreach ($accounts as $account) { ?>
+		
+
+
 
 		<div class="card-container">
 
 			<div class="card">
-				<h3><strong><?php $account->getName() ?></strong></h3>
+				<h3><strong><?= $account->getName() ?></strong></h3>
 				<div class="card-content">
 
 
@@ -61,14 +64,16 @@ include('includes/header.php');
 						<label for="">Sélectionner un compte pour le virement</label>
 						<select name="idPayment" required>
 							<option value="" disabled>Choisir un compte</option>
-							<option value=""><?= $account->getName() ?></option>
+							<?php foreach ($accounts as $account) { ?>
+							<option value="<?= $account->getName() ?>"><?= $account->getName() ?></option>
+							<?php } ?>
 						</select>
 						<input type="submit" name="transfer" value="Transférer l'argent">
 					</form>
 
 					<!-- Formulaire pour suppression -->
 			 		<form class="delete" action="index.php" method="post">
-				 		<input type="hidden" name="id" value="<?= $account->getId() ?>"  required>
+				 		<input type="hidden" name="id" value="<?= $account->getId()  ?>"  required>
 				 		<input type="submit" name="delete" value="Supprimer le compte">
 			 		</form>
 
@@ -76,7 +81,7 @@ include('includes/header.php');
 			</div>
 		</div>
 
-	<?php } ?>
+		<?php } ?>
 
 	</div>
 
