@@ -119,4 +119,19 @@ class Account
         return $this;
     }
 
+    public function addMoney($balance)
+    {
+        $balance = (int)$balance;
+        $balance = $this->getBalance() + $balance;
+
+        return $this->setBalance($balance);
+    }
+
+    public function removeMoney($balance)
+    {
+        $balance = (int)$balance;
+        $balance = $this->getBalance() - $balance;
+
+        return $this->setBalance($balance);
+    }
 }

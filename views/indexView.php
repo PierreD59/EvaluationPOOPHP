@@ -64,8 +64,10 @@ include('includes/header.php');
 						<label for="">Sélectionner un compte pour le virement</label>
 						<select name="idPayment" required>
 							<option value="" disabled>Choisir un compte</option>
-							<?php foreach ($accounts as $account) { ?>
-							<option value="<?= $account->getName() ?>"><?= $account->getName() ?></option>
+							<?php foreach ($accounts as $select) { 								
+								if($account != $select) { ?>
+							<option value="<?= $select->getName() ?>"><?= $select->getName() ?></option>
+								<?php } ?>
 							<?php } ?>
 						</select>
 						<input type="submit" name="transfer" value="Transférer l'argent">

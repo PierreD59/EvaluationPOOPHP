@@ -36,6 +36,46 @@ if(isset($_POST['name']))
     header('location: index.php');
 }
 
+if(isset($_POST['payment']))
+{
+    if(isset($_POST['id']))
+    {
+        if(isset($_POST['balance'])) {
+            $getPayment = htmlspecialchars($_POST['payment']);
+            $accountId = htmlspecialchars($_POST['id']);
+            $balance = htmlspecialchars($_POST['balance']);
+            
+            $payment = $manager->getAccount($accountId);
+
+            if($payment)
+            {
+                $money = $payment->addMoney($balance);
+                $manager->update($payment);
+                header('location: index.php');
+
+            }
+        }    
+    }
+}
+
+if (isset($_POST['debit'])) {
+    if (isset($_POST['id'])) {
+        if (isset($_POST['balance'])) {
+            $getPayment = htmlspecialchars($_POST['debit']);
+            $accountId = htmlspecialchars($_POST['id']);
+            $balance = htmlspecialchars($_POST['balance']);
+
+            $payment = $manager->getAccount($accountId);
+
+            if ($payment) {
+                $money = $payment->removeMoney($balance);
+                $manager->update($payment);
+                header('location: index.php');
+
+            }
+        }
+    }
+}
 
 $accounts = $manager->getAccounts();
 
