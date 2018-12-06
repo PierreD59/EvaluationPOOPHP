@@ -29,23 +29,35 @@ if(isset($_POST['delete']))
 if(isset($_POST['name'])) 
 {
     $name = htmlspecialchars($_POST['name']);
-    // if the name of the account is different from current account, then it has 0 euros
-    if($name !== "Compte courant") 
+
+    // if the account exists, you post an error
+    if($manager->CheckIfExist($name)) 
     {
-        $account = new Account([
-            "name" => $name,
-            "balance" => 0
-        ]);
+        echo "Le compte " . $name . " existe déjà";
     }
-    // else the account wins 80 euros
-    else {
-        $account = new Account([
-            "name" => $name,
-            "balance" => 80
-        ]);
+    else 
+    {
+        
+        // if the name of the account is different from current account, then it has 0 euros
+        if($name !== "Compte courant") 
+        {
+            $account = new Account([
+                "name" => $name,
+                "balance" => 0
+            ]);
+        }
+        // else the account wins 80 euros
+        else {
+            $account = new Account([
+                "name" => $name,
+                "balance" => 80
+            ]);
+        }
+        // add new account
+        $manager->add($account);
+        header('location: index.php');
+
     }
-    $manager->add($account);
-    header('location: index.php');
 }
 
 // add money to the account
@@ -59,9 +71,12 @@ if(isset($_POST['payment']))
             $accountId = htmlspecialchars($_POST['id']);
             $balance = htmlspecialchars($_POST['balance']);
             
+            // call one account
             $payment = $manager->getAccount($accountId);
 
+            // call the function that gives money
             $money = $payment->addMoney($balance);
+            // update
             $manager->update($payment);
             header('location: index.php');
         }    
@@ -77,15 +92,47 @@ if (isset($_POST['debit'])) {
             $accountId = htmlspecialchars($_POST['id']);
             $balance = htmlspecialchars($_POST['balance']);
 
+            // call one account
             $payment = $manager->getAccount($accountId);
-
+            // call the function that withdraws the money
             $money = $payment->removeMoney($balance);
+            // update
             $manager->update($payment);
             header('location: index.php');
 
         }
     }
 }
+
+if(isset($_POST['balance']))
+{
+    if(isset($_POST['idDebit']))
+    {
+        if(isset($_POST['idPayment']))
+        {
+            if(isset($_POST['transfert']))
+            {
+                $balance = htmlspecialchars($_POST['balance']);
+                $accountId = htmlspecialchars($_POST['idDebit']);
+                $accountPayment = htmlspecialchars($_POST['idPayment']);
+                $transfert = htmlspecialchars($_POST['transfert']);
+    
+                $actualyAccount = $manager->getAccount($accountId);
+                $otherAccount = $manager->getAccount($accountPayment);
+
+                $addMoney = $otherAccount->addMoney($balance);
+                $removeMoney = $actualyAccount->removeMoney($balance);
+
+                $manager->update($actualyAccount);
+                $manager->update($otherAccount);
+                header('location: index.php');
+            }
+        }
+    }
+}
+
+
+
 
 $accounts = $manager->getAccounts();
 

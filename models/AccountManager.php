@@ -67,9 +67,12 @@ class AccountManager
         $query = $this->getDB()->prepare('SELECT * FROM accounts WHERE id = :id');
         $query->bindValue('id', $info, PDO::PARAM_INT);
         $query->execute();
-        $account = $query->fetch(PDO::FETCH_ASSOC);
+        $accounts = $query->fetchAll(PDO::FETCH_ASSOC);
+        foreach ($accounts as $account) 
+        {
+            return new Account($account);
+        }
 
-        return new Account($account);
 
     }
 

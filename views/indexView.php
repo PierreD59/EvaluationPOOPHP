@@ -68,11 +68,11 @@ include('includes/header.php');
 							<option value="" disabled>Choisir un compte</option>
 							<?php foreach ($accounts as $select) { 								
 								if($account != $select) { ?>
-							<option value="<?= $select->getName() ?>"><?= $select->getName() ?></option>
+							<option value="<?= $select->getId() ?>"><?= $select->getName() ?></option>
 								<?php } ?>
 							<?php } ?>
 						</select>
-						<input type="submit" name="transfer" value="Transférer l'argent">
+						<input type="submit" name="transfert" value="Transférer l'argent">
 					</form>
 
 					<!-- Formulaire pour suppression -->
