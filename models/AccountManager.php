@@ -88,6 +88,7 @@ class AccountManager
         $query = $this->getDb()->query('SELECT * FROM accounts');
         $accounts = $query->fetchAll(PDO::FETCH_ASSOC);
 
+        // groups all the data in the database into a table with foreach
         foreach ($accounts as $account) {
             $arrayOfAccounts[] = new Account($account);
         }
@@ -130,6 +131,7 @@ class AccountManager
         $query->execute();
     }
     
+    // function delete
     public function deleteAccount($account)
     {
 

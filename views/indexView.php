@@ -16,6 +16,7 @@ include('includes/header.php');
 		<label>Sélectionner un type de compte</label>
 		<select class="" id="name" name="name" required>
 			<option value="" disabled>Choisissez le type de compte à ouvrir</option>
+			<!-- select names of accounts with a foreach -->
 		<?php foreach ($array as $account) { ?>
 			<option value="<?= $account; ?>"><?= $account; ?></option>
 		<?php } ?>
@@ -66,6 +67,8 @@ include('includes/header.php');
 						<label for="">Sélectionner un compte pour le virement</label>
 						<select name="idPayment" required>
 							<option value="" disabled>Choisir un compte</option>
+							
+							<!-- select names of accounts with a foreach -->
 							<?php foreach ($accounts as $select) { 								
 								if($account != $select) { ?>
 							<option value="<?= $select->getId() ?>"><?= $select->getName() ?></option>

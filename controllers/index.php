@@ -117,12 +117,15 @@ if(isset($_POST['balance']))
                 $accountPayment = htmlspecialchars($_POST['idPayment']);
                 $transfert = htmlspecialchars($_POST['transfert']);
     
+                // call account
                 $actualyAccount = $manager->getAccount($accountId);
                 $otherAccount = $manager->getAccount($accountPayment);
 
+                // add and remove money
                 $addMoney = $otherAccount->addMoney($balance);
                 $removeMoney = $actualyAccount->removeMoney($balance);
 
+                // update
                 $manager->update($actualyAccount);
                 $manager->update($otherAccount);
                 header('location: index.php');
