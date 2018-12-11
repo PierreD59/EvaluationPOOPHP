@@ -4,10 +4,9 @@ declare(strict_types = 1);
 
 class Account
 {
-
-    protected   $id,
-                $name,
-                $balance;
+    protected $id;
+    protected $name;
+    protected $balance;
 
 
 
@@ -28,7 +27,6 @@ class Account
      */
     public function hydrate(array $donnees)
     {
-
         foreach ($donnees as $key => $value) {
             // On récupère le nom du setter correspondant à l'attribut.
             $method = 'set' . ucfirst($key);
@@ -46,7 +44,7 @@ class Account
 
     /**
      * Get the value of id
-     */ 
+     */
     public function getId()
     {
         return $this->id;
@@ -55,7 +53,7 @@ class Account
 
     /**
      * Get the value of name
-     */ 
+     */
     public function getName()
     {
         return $this->name;
@@ -64,7 +62,7 @@ class Account
                 
     /**
      * Get the value of balance
-     */ 
+     */
     public function getBalance()
     {
         return $this->balance;
@@ -119,7 +117,12 @@ class Account
         return $this;
     }
 
-    // function that credits
+    /**
+     * function that credits
+     *
+     * @param int $balance
+     * @return  self
+     */
     public function addMoney($balance)
     {
         $balance = (int)$balance;
@@ -127,8 +130,13 @@ class Account
 
         return $this->setBalance($balance);
     }
-    
-    // function that debits
+
+    /**
+     * function that debits
+     *
+     * @param int $balance
+     * @return  self
+     */
     public function removeMoney($balance)
     {
         $balance = (int)$balance;
