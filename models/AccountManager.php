@@ -4,7 +4,6 @@ declare(strict_types = 1);
 
 class AccountManager
 {
-
     private $_db;
 
     /**
@@ -59,21 +58,17 @@ class AccountManager
      * Get one account by id or name
      *
      * @param $info
-     * @return Account 
+     * @return Account
      */
-    public function getAccount($info) 
+    public function getAccount($info)
     {
-
         $query = $this->getDB()->prepare('SELECT * FROM accounts WHERE id = :id');
         $query->bindValue('id', $info, PDO::PARAM_INT);
         $query->execute();
         $accounts = $query->fetchAll(PDO::FETCH_ASSOC);
-        foreach ($accounts as $account) 
-        {
+        foreach ($accounts as $account) {
             return new Account($account);
         }
-
-
     }
 
 
@@ -82,9 +77,8 @@ class AccountManager
      *
      * @return array $arrayOfAccounts
      */
-    public function getAccounts() 
+    public function getAccounts()
     {
-
         $query = $this->getDb()->query('SELECT * FROM accounts');
         $accounts = $query->fetchAll(PDO::FETCH_ASSOC);
 
@@ -93,7 +87,6 @@ class AccountManager
             $arrayOfAccounts[] = new Account($account);
         }
         return $arrayOfAccounts;
-
     }
 
     /**
@@ -116,7 +109,7 @@ class AccountManager
     }
 
     /**
-     * Update account's data 
+     * Update account's data
      *
      * @param Account $account
      */
@@ -130,14 +123,15 @@ class AccountManager
 
         $query->execute();
     }
-    
-    // function delete
+
+    /**
+     * Delete account's data
+     *
+     */
     public function deleteAccount($account)
     {
-
         $query = $this->getDb()->prepare('DELETE FROM accounts WHERE id = :id');
         $query->bindValue('id', $account, PDO::PARAM_INT);
         $query->execute();
-
     }
 }
